@@ -1,0 +1,50 @@
+#include<stdio.h>
+#include<math.h>
+
+
+
+int gcd(int a,int b){
+
+    while(1){
+        int temp =a%b;
+        if(temp==0) return b;
+        a=b;
+        b=temp;
+
+    }
+
+}
+
+
+
+int main(){
+    int p,q,e=2,d=e,M;
+    printf("enter the two prime numbers\n");
+    scanf("%d%d",&p,&q);
+    printf("enter msg\n");
+    scanf("%d",&M);
+    int n=p*q;
+    int f=(p-1)*(q-1);
+
+    //co prime
+    while(e<f){
+        if(gcd(e,f)==1)break;
+        else e++;
+    }
+
+    // mod
+
+    while(1){
+        if(fmod(e*d,f)==1)break;
+        else d++;
+    }
+
+
+    int enc=fmod(pow(M,e),n);
+    printf("encrypted data is ..%d\n",enc);
+    int denc=fmod(pow(enc,d),n);
+    printf("dencrypted data is ..%d\n",denc);
+
+
+}
+
