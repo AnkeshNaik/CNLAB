@@ -1,0 +1,29 @@
+#include<stdio.h>
+
+
+int main(){
+    int i,o,b,n,s=0;
+    printf("enter the no of incoming packets and bucket size and outgoing rate\n");
+    scanf("%d%d%d",&n,&b,&o);
+    while(n!=0){
+        printf("enter the incoming packet\n");
+        scanf("%d",&i);
+        if(i<=(b-s)){
+            printf("the incoming packet %d \n",i);
+            s+=i;
+            printf("for bucket size is %d the packets in buffer is %d\n",b,s);
+        }
+        else{
+            printf("no of packets dropped is %d\n",(i-(b-s)));
+            s=b;
+            printf("for bucket size is %d the packets in buffer is %d\n",b,s);
+
+        }
+        s=s-o;
+        if(s>0)
+            printf("After outgoing  remaining packets in buffer is %d\n",s);
+        else printf("After outgoing  remaining  packets in buffer is  0\n");
+         n--;
+
+    }
+}
