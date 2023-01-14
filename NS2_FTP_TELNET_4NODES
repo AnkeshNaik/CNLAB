@@ -1,0 +1,60 @@
+set ns [new Simulator]
+
+set ntrace [open ex2.tr w]
+$ns trace-all $ntrace
+
+set namtrace [open ex2.nam w]
+$ns namtrace-all $namtrace
+
+proc finish { } {
+global ns ntrace namtrace
+$ns flush-trace
+close $ntrace
+close $namtrace
+exec nam ex2.nam &
+exit 0
+}
+
+set n0 [$ns node]
+set n1 [$ns node]
+set n2 [$ns node]
+set n3 [$ns node]
+
+$ns duplex-link $n0 $n2 2Mb 10ms DropTail
+$ns duplex-link $n1 $n2 2Mb 1ms DropTail
+$ns simplex-link $n2 $n3 1Mb 100ms DropTail
+$ns simplex-link $n3 $n2 1Mb 5ms DropTail
+
+set tcp0 [new Agent/TCP]
+$ns attach-agent $n0 $tcp0
+set sink0 [new Agent/TCPSink]
+$ns attach-agent $n3 $sink0
+$ns connect $tcp0 $sink0
+# imp
+$tcp0 set fid_ 1
+
+set ftp0 [new Application/FTP]
+$ftp0 attach-agent $tcp0
+$ftp0 set type_ FTP
+
+set tcp1 [new Agent/TCP]
+$ns attach-agent $n1 $tcp1
+set sink1 [new Agent/TCPSink]
+$ns attach-agent $n3 $sink1
+$ns connect $tcp1 $sink1
+
+$ns set fid_ 2
+
+set telnet0 [new Application/Telnet]
+$telnet0 attach-agent $tcp1
+$telnet0 set type_ Telnet
+
+$ns at 0.5 "$ftp0 start"
+$ns at 0.5 "$telnet0 start"
+$ns at 4.5 "$ftp0 stop"
+$ns at 4.6 "$telnet0 stop"
+$ns at 5.0 "finish"
+
+$ns run
+
+
