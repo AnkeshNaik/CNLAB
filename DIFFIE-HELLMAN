@@ -1,6 +1,6 @@
 #include<stdio.h>
 
-    int compute(int a, int m,int n){
+   /* int compute(int a, int m,int n){
         int y=1;
         while(m>0){
             if(m%2==1){
@@ -10,7 +10,16 @@
             m/=2;
         }
         return y;
-    }
+    }*/
+    
+    
+    
+    long long compute(int a,int b,int n){
+    // return (int)pow(a,b)%n;
+    return (int)fmod(pow(a,b),n);
+   }
+   
+   
 int main(){
     int p,g;
     printf("enter the prime number and alpha\n");
