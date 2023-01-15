@@ -1,3 +1,5 @@
+***************DJ1******************
+
 #include<stdio.h>
 
 int main(){
@@ -49,6 +51,65 @@ int main(){
     }
 
 
+
+
+}
+
+*****************DJ2*******************
+
+
+
+
+#include<stdio.h>
+
+int main(){
+
+    int i,j,s,w,u,min=999;
+
+    int n;
+    printf("enter no of nodes\n");
+    scanf("%d",&n);
+
+    int d[n+1],c[n+1][n+1],v[n+1],p[n+1];
+    printf("enter the cost matix\n");
+    for(i=1;i<=n;v[i++]=0){
+        for(j=1;j<=n;j++){
+            scanf("%d",&c[i][j]);
+        }
+    }
+    printf("enter the source node\n");
+    scanf("%d",&s);
+
+    for(i=1;i<=n;p[i++]=s) d[i]=c[s][i];
+    v[s]=1;
+    d[s]=0;
+
+
+    for(j=2;j<=n;j++,min=999){
+        for(i=1;i<=n;i++){
+            if(!v[i]&&d[i]<min){
+                min=d[u=i];
+            }
+        }
+    }
+    v[u]=1;////
+
+    for(w=1;w<=n;w++){
+        if(!v[w]){
+            if(d[w]>c[u][w]+d[u])d[w]=c[u][w]+d[u];
+            p[w]=u;///
+        }
+    }
+
+    for(i=1;i<=n;i++){
+        if(i!=s){
+            printf("\nshortest path  %d to %d is %d\n\n path  %d",s,i,d[i],i);
+            j=i;
+            do{
+                printf("  <- %d",j=p[j]);
+            }while(j!=s);
+        }
+    }
 
 
 }
