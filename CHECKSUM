@@ -1,0 +1,98 @@
+#include<iostream>
+#include<string>
+using namespace std;
+
+string add(string s1,string sum){
+    string ans="";
+    int temp=0;
+    int n=sum.size()-1;
+    int m=s1.size()-1;
+    while(m>=0||n>=0||temp==1){
+        temp+=((m>=0)?s1[m--]-'0':0);
+        temp+=((n>=0)?sum[n--]-'0':0);
+        ans = char(temp%2+'0')+ans;
+        temp/=2;
+
+    }
+    return ans;
+
+}
+string carry(string s1){
+    string checksum;
+    string carry=s1.substr(0,s1.size()-4);
+    string t=s1.substr(s1.size()-4,4);
+    if(carry.size()){
+        checksum=add(carry,t);
+    }
+    else{
+        checksum=t;
+    }
+    return checksum;
+}
+
+string compliment(string s){
+    string s2="";
+    for(int i=0;i<s.size();i++){
+        if(s[i]=='0') s2+='1';
+        else s2+='0';
+    }
+    return s2;
+}
+
+int main(){
+    string s,sr;
+    int n;
+    cout<<"enter string in binary as muliple of 4 :   ";
+    cin>>s;
+    n=s.size();
+    string checksum;
+    string sum="00000000";
+    for(int i=0;i<n;i+=4){
+        string s1=s.substr(i,4);
+        sum =add(s1,sum);
+  
+    }
+    checksum=carry(sum);
+    cout<<"sum before compliment   :";
+    cout<<checksum<<endl;
+    checksum=compliment(checksum);
+    cout<<"checksum    :";
+    cout<<checksum<<endl;
+
+   
+    
+
+    // *********reciever side************
+
+    cout<<"enter reciever string in binary           :";
+    cin>>sr;
+    n=sr.size();
+    string checksumr;
+    string sumr="00000000";
+    for(int i=0;i<n;i+=4){
+        string s1=sr.substr(i,4);
+        sumr =add(s1,sumr);
+    }
+    cout<<"rchecksum after just sum   :";
+    cout<<sumr<<endl;
+    sumr=add(sumr,checksum);
+    checksumr=carry(sumr);
+
+
+    checksumr=compliment(checksumr);
+    
+    cout<<"rchecksum ";
+    cout<<checksumr<<endl;
+
+    for(int i=0;i<checksumr.size();i++){
+        if(checksumr[i]!='0'){
+            cout<<"error";
+            return 0;
+        }
+    }
+    cout<<"No error";
+
+
+
+
+}
